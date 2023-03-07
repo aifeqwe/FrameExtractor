@@ -1,0 +1,66 @@
+render() {
+  const { selectedVideo, selectedTime, selectedLocation, isLoading, progress } = this.state;
+  const isVideoSelected = selectedVideo !== null;
+  const isTimeSelected = selectedTime !== null;
+  const isLocationSelected = selectedLocation !== null;
+  const isExtractable = isVideoSelected && isTimeSelected && isLocationSelected;
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Frame Extractor</Text>
+      </View>
+
+      <View style={styles.content}>
+        <View style={styles.pickerContainer}>
+          <VideoPicker onVideoSelected={this.handleVideoSelected} />
+          {isVideoSelected && (
+            <VideoInfo video={selectedVideo} />
+          )}
+        </View>
+
+        {isVideoSelected && (
+          <View style={styles.pickerContainer}>
+            <TimePicker onTimeSelected={this.handleTimeSelected} video={selectedVideo} />
+            {isTimeSelected && (
+              <Text style={styles.selectedText}>Selected time: {selectedTime}</Text>
+            )}
+          </View>
+        )}
+
+        {isVideoSelected && (
+          <View style={styles.pickerContainer}>
+            <LocationPicker onLocationSelected={this.handleLocationSelected} />
+            {isLocationSelected && (
+              <Text style={styles.selectedText}>Selected location: {selectedLocation}</Text>
+            )}
+          </View>
+        )}
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, !isExtractable && styles.disabledButton]}
+            onPress={this.handleExtract}
+            disabled={!isExtractable || isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="#ffffff" size="small" />
+            ) : (
+              <Text style={styles.buttonText}>Extract Frames</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {progress !== null && (
+        <ProgressNotification
+          title="Frame extraction in progress"
+          message={`Extracting frames from ${selectedVideo.title}...`}
+          percent={progress}
+        />
+      )}
+
+      <StatusBar style="auto" />
+    </View>
+  );
+}

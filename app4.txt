@@ -1,0 +1,47 @@
+setQualityAndResolution = () => {
+  const { quality, resolution } = this.state;
+  if (quality && resolution) {
+    const options = {
+      key: 'qualityAndResolution',
+      title: 'Set quality and resolution',
+      items: [
+        { label: 'Low', value: 'low' },
+        { label: 'Medium', value: 'medium' },
+        { label: 'High', value: 'high' },
+      ],
+      initialValue: quality,
+    };
+    ActionSheet.show(
+      {
+        options: ['Cancel', 'OK'],
+        title: 'Select resolution',
+        message: 'Please select the resolution for the frames:',
+        cancelButtonIndex: 0,
+        destructiveButtonIndex: 1,
+        useModal: true,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 1) {
+          const resolutionOptions = {
+            key: 'resolution',
+            title: 'Set resolution',
+            items: [
+              { label: '480p', value: '480p' },
+              { label: '720p', value: '720p' },
+              { label: '1080p', value: '1080p' },
+            ],
+            initialValue: resolution,
+          };
+          ActionSheet.show(
+            {
+              options: ['Cancel', 'OK'],
+              title: 'Select resolution',
+              message: 'Please select the resolution for the frames:',
+              cancelButtonIndex: 0,
+              destructiveButtonIndex: 1,
+              useModal: true,
+            },
+            (secondButtonIndex) => {
+              if (secondButtonIndex === 1) {
+                const selectedQuality = options.items[options.selected].value;
+                const selectedResolution = resolutionOptions.items[resolutionOptions.selected].value;
