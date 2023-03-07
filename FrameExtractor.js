@@ -172,5 +172,6 @@ const FrameExtractor = ({ videoUrl, frameRate, onStartExtract, onProgress, onFin
       backgroundColor: '#2E2E2E',
     },
   });
+   }
   
   export default FrameExtractor;
