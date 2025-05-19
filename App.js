@@ -1,61 +1,74 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Alert, StyleSheet } from 'react-native';
 import VideoPicker from './VideoPicker';
+import FrameRangeSelector from './FrameRangeSelector';
 import FrameExtractor from './FrameExtractor';
+import LanguageSwitcher from './LanguageSwitcher';
+import { pickSaveDirectory } from './fileUtils';
+import { i18n, setI18nConfig } from './i18n';
 
 export default function App() {
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [extracting, setExtracting] = useState(false);
+  const [videoUri, setVideoUri] = useState(null);
+  const [duration, setDuration] = useState(0);
+  const [range, setRange] = useState(null);
+  const [savePath, setSavePath] = useState(null);
+  const [step, setStep] = useState(0);
 
-  const handleVideoSelect = (video) => {
-    setSelectedVideo(video);
+  const handleVideoSelect = (uri) => {
+    setVideoUri(uri);
+    setStep(1);
+    // TODO: Extract duration from video (can use react-native-video or ffprobe)
+    setDuration(60); // Placeholder
   };
 
-  const handleExtractionStart = () => {
-    setExtracting(true);
+  const handleRangeSelect = (r) => {
+    setRange(r);
+    setStep(2);
+  };
+
+  const handleSavePath = async () => {
+    const path = await pickSaveDirectory();
+    if (path) {
+      setSavePath(path);
+      setStep(3);
+    } else {
+      Alert.alert(i18n.t('error'), 'No directory selected');
+    }
   };
 
   const handleExtractionComplete = () => {
-    setExtracting(false);
-    setSelectedVideo(null);
+    setStep(0);
+    setVideoUri(null);
+    setRange(null);
+    setSavePath(null);
   };
 
   return (
     <View style={styles.container}>
-      {!selectedVideo && <VideoPicker onSelect={handleVideoSelect} />}
-      {selectedVideo && (
+      <LanguageSwitcher onChange={setI18nConfig} />
+      {step === 0 && <VideoPicker onSelect={handleVideoSelect} />}
+      {step === 1 && videoUri && (
+        <FrameRangeSelector videoUri={videoUri} duration={duration} onRangeChange={handleRangeSelect} />
+      )}
+      {step === 2 && (
+        <View>
+          <Text>{i18n.t('selectSavePath')}</Text>
+          <Text onPress={handleSavePath} style={styles.link}>{i18n.t('selectSavePath')}</Text>
+        </View>
+      )}
+      {step === 3 && videoUri && range && savePath && (
         <FrameExtractor
-          video={selectedVideo}
-          onExtractionStart={handleExtractionStart}
+          videoUri={videoUri}
+          range={range}
+          savePath={savePath}
           onExtractionComplete={handleExtractionComplete}
         />
-      )}
-      {extracting && (
-        <View style={styles.progressContainer}>
-          <Text style={styles.progressText}>Extracting frames...</Text>
-        </View>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  progressContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#000',
-    opacity: 0.8,
-    padding: 10,
-  },
-  progressText: {
-    color: '#fff',
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' },
+  link: { color: '#2196F3', textDecorationLine: 'underline', margin: 12, fontSize: 16 },
 });
