@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Button, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import { i18n } from './i18n';
 
-const VideoPicker = () => {
-  const [selectedVideo, setSelectedVideo] = useState(null);
-
+const VideoPicker = ({ onSelect }) => {
   const selectVideo = () => {
     const options = {
-      title: 'Select a video',
+      title: i18n.t('selectVideo'),
       mediaType: 'video',
       storageOptions: {
         skipBackup: true,
-        path: 'frame extractors',
+        path: 'frame-extract',
       },
     };
 
@@ -19,27 +18,16 @@ const VideoPicker = () => {
       if (response.didCancel) {
         console.log('User cancelled video picker');
       } else if (response.error) {
-        console.log('VideoPicker Error: ', response.error);
-        Alert.alert('Error', 'Could not select video');
+        Alert.alert(i18n.t('error'), 'Could not select video');
       } else {
-        setSelectedVideo(response);
+        onSelect && onSelect(response.uri || response.path);
       }
     });
   };
 
   return (
     <View>
-      <Button title="Select Video" onPress={selectVideo} />
-      {selectedVideo && (
-        <View>
-          <Text>Title: {selectedVideo.fileName}</Text>
-          <Text>Duration: {selectedVideo.duration} seconds</Text>
-          <Text>Format: {selectedVideo.type}</Text>
-          <Text>Codec: {selectedVideo.codec}</Text>
-          <Text>Frames per second: {selectedVideo.frameRate}</Text>
-          <Text>Number of frames: {selectedVideo.frameCount}</Text>
-        </View>
-      )}
+      <Button title={i18n.t('selectVideo')} onPress={selectVideo} />
     </View>
   );
 };
