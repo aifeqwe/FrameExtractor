@@ -1,35 +1,14 @@
-import * as Localization from 'react-native-localize';
-import i18n from 'i18n-js';
-
-// Example translations
 const translations = {
   en: {
-    selectVideo: 'Select Video',
-    selectRange: 'Select Range',
-    selectSavePath: 'Select Save Path',
-    extractFrames: 'Extract Frames',
-    extracting: 'Extracting frames...',
-    language: 'Language',
-    success: 'Frames extracted successfully!',
-    error: 'An error occurred',
+    appName: 'Frame Extractor', tagline: 'Turn moments into images', intro: 'Extract crisp still images from any moment in your video.',
+    stepVideo: 'Video', stepRange: 'Time range', stepExport: 'Export', chooseVideo: 'Choose a video', chooseAnother: 'Change video', videoHint: 'Choose a video stored on your device. Your media stays on your device.',
+    noVideo: 'No video selected', duration: 'Duration', resolution: 'Resolution', rangeTitle: 'Choose your moments', rangeHint: 'Move the handles to set the section you want to capture.', start: 'Start', end: 'End', continue: 'Continue', back: 'Back', exportTitle: 'Ready to extract', exportHint: 'Images are processed on your device and saved in a new folder.', outputFormat: 'Output format', frameRate: 'Capture frequency', everySecond: '1 image per second', everyHalfSecond: '2 images per second', everyFrame: 'Every frame', allFramesWarning: 'Every frame can create thousands of files and use substantial storage on long videos.', outputQuality: 'Image quality', extract: 'Extract frames', extracting: 'Extracting frames…', cancel: 'Cancel', done: 'Extraction complete', doneCount: 'Images created', savedTo: 'Saved in', share: 'Export all images (.ZIP)', newProject: 'Start another extraction', errorTitle: 'Something went wrong', pickerError: 'The video could not be opened. Please choose another file.', outputError: 'The output folder could not be created.', extractionError: 'Extraction failed. Check that the video is readable and try again.', cancelled: 'Extraction cancelled.', language: 'Language', settings: 'Settings', privateNote: 'Private by design · No upload required', stepOf: 'STEP', seconds: 'sec', frames: 'frames', preparing: 'Preparing video…', noFrames: 'No images were produced. Try a different range or frequency.', permissions: 'Choose a video from the system picker to grant access.', storageNote: 'Output stays in app storage until you share it.', releaseWarning: 'Release build and device testing are still required before publishing.'
   },
   fa: {
-    selectVideo: 'انتخاب ویدئو',
-    selectRange: 'انتخاب بازه',
-    selectSavePath: 'انتخاب مسیر ذخیره',
-    extractFrames: 'استخراج فریم‌ها',
-    extracting: 'در حال استخراج فریم‌ها...',
-    language: 'زبان',
-    success: 'استخراج فریم‌ها با موفقیت انجام شد!',
-    error: 'خطایی رخ داد',
-  },
+    appName: 'فریم‌اکسترکتور', tagline: 'لحظه‌ها را به تصویر تبدیل کن', intro: 'از هر بخش ویدئو، تصاویر ثابت و باکیفیت استخراج کن.',
+    stepVideo: 'ویدئو', stepRange: 'بازه زمانی', stepExport: 'خروجی', chooseVideo: 'انتخاب ویدئو', chooseAnother: 'تغییر ویدئو', videoHint: 'ویدئویی را از دستگاه انتخاب کن. فایل‌های تو از دستگاه خارج نمی‌شوند.',
+    noVideo: 'هنوز ویدئویی انتخاب نشده', duration: 'مدت', resolution: 'ابعاد', rangeTitle: 'لحظه‌هایت را انتخاب کن', rangeHint: 'بازه زمانی موردنظر برای استخراج تصاویر را مشخص کن.', start: 'شروع', end: 'پایان', continue: 'ادامه', back: 'بازگشت', exportTitle: 'آماده استخراج', exportHint: 'تصاویر روی دستگاه پردازش و در پوشه‌ای جدید ذخیره می‌شوند.', outputFormat: 'فرمت خروجی', frameRate: 'تعداد تصاویر', everySecond: 'هر ثانیه ۱ تصویر', everyHalfSecond: 'هر ثانیه ۲ تصویر', everyFrame: 'تمام فریم‌ها', allFramesWarning: 'استخراج تمام فریم‌ها در ویدئوهای طولانی ممکن است هزاران فایل بسازد و فضای زیادی مصرف کند.', outputQuality: 'کیفیت تصویر', extract: 'استخراج فریم‌ها', extracting: 'در حال استخراج تصاویر…', cancel: 'لغو', done: 'استخراج کامل شد', doneCount: 'تعداد تصاویر ساخته‌شده', savedTo: 'محل ذخیره', share: 'خروجی همه تصاویر (ZIP)', newProject: 'استخراج جدید', errorTitle: 'مشکلی پیش آمد', pickerError: 'ویدئو باز نشد. لطفاً فایل دیگری انتخاب کن.', outputError: 'ساخت پوشه خروجی ناموفق بود.', extractionError: 'استخراج ناموفق بود. دسترسی به ویدئو و بازه انتخاب‌شده را بررسی کن.', cancelled: 'استخراج لغو شد.', language: 'زبان', settings: 'تنظیمات', privateNote: 'خصوصی و آفلاین · بدون نیاز به بارگذاری', stepOf: 'مرحله', seconds: 'ثانیه', frames: 'فریم', preparing: 'آماده‌سازی ویدئو…', noFrames: 'تصویری تولید نشد. بازه یا نرخ استخراج را تغییر بده.', permissions: 'برای دسترسی، ویدئو را از انتخاب‌گر رسمی سیستم انتخاب کن.', storageNote: 'خروجی تا زمان اشتراک‌گذاری در فضای برنامه نگهداری می‌شود.', releaseWarning: 'پیش از انتشار، ساخت نسخه نهایی و آزمایش روی دستگاه واقعی الزامی است.'
+  }
 };
 
-i18n.translations = translations;
-i18n.fallbacks = true;
-
-const setI18nConfig = (languageTag) => {
-  i18n.locale = languageTag || Localization.getLocales()[0].languageTag;
-};
-
-export { i18n, setI18nConfig };
+export const t = (key, language = 'en') => translations[language]?.[key] ?? translations.en[key] ?? key;

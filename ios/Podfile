@@ -1,3 +1,6 @@
+# Nitro-powered FFmpeg requires React Native's New Architecture.
+ENV['RCT_NEW_ARCH_ENABLED'] = '1' unless ENV.key?('RCT_NEW_ARCH_ENABLED')
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -5,7 +8,7 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, min_ios_version_supported
+platform :ios, '15.5'
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']

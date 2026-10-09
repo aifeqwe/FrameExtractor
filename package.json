@@ -1,17 +1,32 @@
 {
-  "name": "FrameExtractor",
-  "version": "0.0.1",
+  "name": "frame-extractor",
+  "version": "1.0.0",
   "private": true,
+  "description": "Private, on-device video frame extraction for Android and iOS.",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --runInBand",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "android:release": "node scripts/gradle.js assembleRelease",
+    "android:bundle": "node scripts/gradle.js bundleRelease"
   },
   "dependencies": {
+    "@react-native-community/slider": "^5.0.1",
+    "munim-ffmpeg": "^0.1.1",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-blob-util": "^0.22.2",
+    "react-native-fs": "^2.20.0",
+    "react-native-image-picker": "^8.2.1",
+    "react-native-nitro-modules": "^0.36.5",
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-share": "^12.2.0",
+    "react-native-video": "^6.16.1",
+    "react-native-zip-archive": "^9.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -26,7 +41,7 @@
     "@react-native/typescript-config": "0.79.2",
     "@types/jest": "^29.5.13",
     "@types/react": "^19.0.0",
-    "@types/react-test-renderer": "^19.0.0",
+    "@types/react-test-renderer": "19.0.0",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",

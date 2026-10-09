@@ -1,33 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-const ProgressBar = ({ progress }) => {
-  return (
-    <View style={styles.container}>
-      <View style={[styles.progressBar, { width: `${progress}%` }]} />
-      <Text style={styles.progressText}>{progress}%</Text>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-    height: 30,
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  progressBar: {
-    height: '100%',
-    backgroundColor: '#2196F3',
-  },
-  progressText: {
-    paddingLeft: 10,
-    color: '#757575',
-    fontWeight: 'bold',
-  },
-});
-
-export default ProgressBar;
+export default function ProgressBar({ progress = 0, rtl = false }) {
+  const value = Math.max(0, Math.min(100, Number(progress) || 0));
+  return <View accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: 100, now: Math.round(value) }} style={styles.track}>
+    <View style={[styles.fill, { width: `${value}%` }]} />
+    <Text style={[styles.label, rtl && styles.labelRtl]}>{Math.round(value)}%</Text>
+  </View>;
+}
+const styles = StyleSheet.create({ labelRtl: { right: 'auto', left: 0 }, track: { height: 10, borderRadius: 99, backgroundColor: '#E8EAF2', overflow: 'hidden', justifyContent: 'center' }, fill: { height: '100%', borderRadius: 99, backgroundColor: '#17BFA4' }, label: { position: 'absolute', right: 0, top: -19, fontSize: 10, fontWeight: '800', color: '#737A8D' } });
